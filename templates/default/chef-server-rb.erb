@@ -1,1 +1,7 @@
-erchef['s3_url_ttl'] = 3600
+api_fqdn =  "<%= @sitename %>"
+bookshelf['vip'] = "<%= @sitename %>"
+bookshelf['url'] = "https://<%= @sitename %>"
+bootstrap = <%= @node[:chef11server][:bootstrap] %>
+notification_email = "<%= @node[:chef11server][:notification_email] %>"
+topology = "<%= @node[:chef11server][:topology] %>"
+erchef['s3_url_ttl'] = <%= @node[:chef11server][:erchef][:s3_url_ttl] %>

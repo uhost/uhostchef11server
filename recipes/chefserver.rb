@@ -17,14 +17,17 @@
 #    under the License.
 #
 
-remote_file "#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11][:version] }_#{ node[:chef11][:arch] }.deb" do
-  source node[:chef11][:download]
+servername = Chef::Config[:node_name]
+sitename = "chef." + servername
+
+remote_file "#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11server][:version] }_#{ node[:chef11server][:arch] }.deb" do
+  source node[:chef11server][:download]
   mode 0644
-  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11][:version] }_#{ node[:chef11][:arch] }.deb") }
+  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11server][:version] }_#{ node[:chef11server][:arch] }.deb") }
 end
 
 dpkg_package "install chef11-server" do
-  source "#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11][:version] }_#{ node[:chef11][:arch] }.deb"
+  source "#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11server][:version] }_#{ node[:chef11server][:arch] }.deb"
   action :install
 end
 
@@ -40,6 +43,7 @@ template "/etc/chef-server/chef-server.rb" do
   owner "root"
   group "root"
   variables({
+    :sitename => sitename
   })
 end
 
