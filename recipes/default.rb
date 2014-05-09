@@ -21,6 +21,32 @@ log "Installing chef server on: " + Chef::Config[:node_name]
 
 include_recipe "apt"
 
+servername = Chef::Config[:node_name]
+
+bash "configure-hostname" do
+  code <<-EOH
+    /bin/hostname -F /etc/hostname
+  EOH
+  action :nothing
+end
+
+file "/etc/hostname" do
+  content servername
+  notifies :run, "bash[configure-hostname]", :immediately
+end
+
+hostsfile_entry node[:ipaddress] do
+  hostname  servername
+  action    :append
+end
+
+# Reload ohai so that the fqdn is not set correctly
+ohai "reload" do
+  action :reload
+end
+
 include_recipe "uhostchef11server::chefserver"
 include_recipe "uhostchef11server::nginx"
 include_recipe "uhostchef11server::uhostadmin"
+
+
