@@ -1,0 +1,33 @@
+  upstream uhostappserver {
+    server 127.0.0.1:8888;
+  }
+
+
+  server {
+    listen 443;
+    server_name <%= @host.is_a?(Array) ? @host.join(' ') : @host %>;
+    access_log /var/log/nginx/ssl-<%= @servername %>.log;
+    ssl on;
+    ssl_certificate /var/opt/chef-server/nginx/ca/<%= @servername %>.crt;
+    ssl_certificate_key /var/opt/chef-server/nginx/ca/<%= @servername %>.key;
+
+    ssl_session_timeout 5m;
+
+    ssl_protocols SSLv3 TLSv1;
+    ssl_ciphers RC4-SHA:RC4-MD5:RC4:RSA:HIGH:MEDIUM:!LOW:!kEDH:!aNULL:!ADH:!eNULL:!EXP:!SSLv2:!SEED:!CAMELLIA:!PSK;
+    ssl_prefer_server_ciphers on;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_pass_request_headers on;
+    proxy_connect_timeout   1;
+    proxy_send_timeout      300;
+    proxy_read_timeout      300;
+
+    location / {
+      proxy_pass http://uhostappserver;
+
+    }
+  }

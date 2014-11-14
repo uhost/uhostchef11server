@@ -48,5 +48,6 @@ end
 include_recipe "uhostchef11server::chefserver"
 include_recipe "uhostchef11server::nginx"
 include_recipe "uhostchef11server::uhostadmin"
-
+include_recipe "uhostchef11server::users"
+include_recipe "uhostchef11server::api"
 

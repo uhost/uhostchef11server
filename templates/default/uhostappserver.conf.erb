@@ -1,0 +1,18 @@
+#!upstart
+description "Uhost App Server"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on [!12345]
+
+console log
+
+respawn limit 10 5
+
+env NODE_ENV="prod"
+
+setuid "uhost"
+setgid "uhost"
+
+chdir /srv/uhostappserver/current
+exec /usr/bin/node app.js
+
