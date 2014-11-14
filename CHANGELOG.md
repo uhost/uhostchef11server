@@ -1,9 +1,8 @@
-# 0.1.0
+## 0.1.0 (May 9, 2014)
 
-Initial release of uhostserver
+Features:
+  - Recipe to install chef server
+  - Creates nginx server
 
-* Enhancements
-  * an enhancement
-
-* Bug Fixes
-  * a bug fix
+Bugfixes: 
+  - none
