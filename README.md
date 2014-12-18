@@ -51,13 +51,28 @@ Include `uhostserver` in your node's `run_list`:
 Install Chef DK
 https://downloads.getchef.com/chef-dk
 
+Make sure that chef-dk is in your path
+
 Install bundler
 sudo gem install bundler
 
 Install packages in the Gemfile
 bundle
 
+Lint
+foodcritic .
 
+Unit Test - using chefspec
+rspec --color
+
+Integration Test - using test-kitchen
+kitchen converge
+kitchen setup
+kitchen verify
+
+## Development
+
+kitchen converge 
 
 
 ## License and Authors

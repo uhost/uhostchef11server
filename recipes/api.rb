@@ -78,6 +78,8 @@ service "uhostappserver" do
   action [:start, :enable]
 end
 
+include_recipe "nginx"
+
 servername = Chef::Config[:node_name]
 sitename = servername
 
