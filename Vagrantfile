@@ -6,6 +6,14 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.require_version ">= 1.5.0"
 
+unless Vagrant.has_plugin?("vagrant-berkshelf")
+  raise 'vagrant-berkshelf is not installed!'
+end
+
+unless Vagrant.has_plugin?("vagrant-omnibus")
+  raise 'vagrant-omnibus is not installed!'
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,

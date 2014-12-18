@@ -28,7 +28,7 @@ ruby_block "wait_for_erchef" do
     require "net/http"
     def url_exist?(url_string)
       url = URI.parse(url_string)
-      req = Net::HTTP.new(url.host, url.port)
+      req = Net::HTTP.new(url.host, url.port, nil, nil, nil, nil)
       req.use_ssl = (url.scheme == 'https')
       req.verify_mode = OpenSSL::SSL::VERIFY_NONE
       res = req.request_head(url.path)
@@ -67,6 +67,8 @@ end
 
 bash "delete-admin" do
   code <<-EOH
+    export http_proxy=""
+    export https_proxy=""
     cd /etc/chef-server
     knife user delete admin -c admin-knife.rb -y
   EOH
@@ -75,6 +77,8 @@ end
 
 bash "create-uhostadmin" do
   code <<-EOH
+    export http_proxy=""
+    export https_proxy=""
     cd /etc/chef-server
     openssl rand -base64 12 > uhostadmin.txt
     chmod 600 uhostadmin.txt

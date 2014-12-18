@@ -20,14 +20,28 @@
 servername = Chef::Config[:node_name]
 sitename = "chef." + servername
 
-remote_file "#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11server][:version] }_#{ node[:chef11server][:arch] }.deb" do
-  source node[:chef11server][:download]
-  mode 0644
-  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11server][:version] }_#{ node[:chef11server][:arch] }.deb") }
+#remote_file "#{Chef::Config[:file_cache_path]}/#{node[:chef11server][:filename]}" do
+#  source node[:chef11server][:download]
+#  mode 0644
+#  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/#{ node[:chef11server][:filename] }") }
+#end
+
+cookbook_file node['chef11server']['filename'] do
+  path "#{Chef::Config[:file_cache_path]}/#{node['chef11server']['filename']}"
+  action :create_if_missing
 end
 
-dpkg_package "install chef11-server" do
-  source "#{Chef::Config[:file_cache_path]}/chef-server_#{ node[:chef11server][:version] }_#{ node[:chef11server][:arch] }.deb"
+case node['platform']
+when 'ubuntu'
+  packageprovider = Chef::Provider::Package::Dpkg
+when 'centos'
+  packageprovider = Chef::Provider::Package::Rpm
+end
+
+
+package "install chef11-server" do
+  source "#{Chef::Config[:file_cache_path]}/#{node['chef11server']['filename']}"
+  provider packageprovider
   action :install
 end
 
@@ -49,6 +63,8 @@ end
 
 bash "reconfigure chef11-server" do
   code <<-EOH
+    export http_proxy=""
+    export https_proxy=""
     chef-server-ctl reconfigure
   EOH
 end

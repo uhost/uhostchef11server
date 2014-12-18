@@ -46,6 +46,20 @@ Include `uhostserver` in your node's `run_list`:
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request
 
+## Testing
+
+Install Chef DK
+https://downloads.getchef.com/chef-dk
+
+Install bundler
+sudo gem install bundler
+
+Install packages in the Gemfile
+bundle
+
+
+
+
 ## License and Authors
 
 Author:: YOUR_NAME (<YOUR_EMAIL>)

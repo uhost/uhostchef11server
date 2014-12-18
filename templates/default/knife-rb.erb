@@ -6,3 +6,5 @@ client_key               "/etc/chef-server/<%= @pemfile %>"
 validation_client_name   "chef-validator"
 validation_key           "/etc/chef-server/chef-validator.pem"
 chef_server_url          "https://<%= @sitename %>/"
+verify_api_cert          false
+ssl_verify_mode          :verify_none

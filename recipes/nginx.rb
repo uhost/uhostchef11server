@@ -30,7 +30,7 @@ include_recipe "nginx"
 servername = Chef::Config[:node_name]
 sitename = "chef." + servername
 
-hostsfile_entry node[:ipaddress] do
+hostsfile_entry node['ipaddress'] do
   hostname  sitename
   action    :append
 end
@@ -44,7 +44,6 @@ template "/etc/nginx/sites-available/"+sitename+".conf" do
   owner "root"
   group "root"
   variables({
-    :servername => servername,
     :host => hosts
   })
 end

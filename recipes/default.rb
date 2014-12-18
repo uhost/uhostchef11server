@@ -35,7 +35,7 @@ file "/etc/hostname" do
   notifies :run, "bash[configure-hostname]", :immediately
 end
 
-hostsfile_entry node[:ipaddress] do
+hostsfile_entry node['ipaddress'] do
   hostname  servername
   action    :append
 end

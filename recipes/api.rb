@@ -41,16 +41,21 @@ deploy_revision "/srv/uhostappserver" do
   action :deploy
 end
 
-package "python-software-properties"
+# only needed for ubuntu, not for centos
+#if platform?("ubuntu")
+#  package "python-software-properties"
+#
+#  apt_repository 'nodejs' do
+#    uri          'ppa:chris-lea/node.js'
+#    distribution node['lsb']['codename']
+#  end
+#end
 
-apt_repository 'nodejs' do
-  uri          'ppa:chris-lea/node.js'
-  distribution node['lsb']['codename']
-end
+#package "nodejs"
+#package "mongodb"
 
-package "nodejs"
-
-package "mongodb"
+include_recipe "nodejs"
+include_recipe "mongodb"
 
 execute 'npm install' do
   cwd "/srv/uhostappserver/current"

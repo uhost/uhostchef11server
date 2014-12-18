@@ -17,7 +17,11 @@
 #    under the License.
 #
 
-gem_package "ruby-shadow"
+if platform?("ubuntu") && node['platform_version'].to_f > 14.0
+  package "ruby-shadow"
+else 
+  gem_package "ruby-shadow"
+end
 
 group "uhost" do
   action :create
