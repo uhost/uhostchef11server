@@ -20,15 +20,10 @@
 servername = Chef::Config[:node_name]
 sitename = "chef." + servername
 
-#remote_file "#{Chef::Config[:file_cache_path]}/#{node[:chef11server][:filename]}" do
-#  source node[:chef11server][:download]
-#  mode 0644
-#  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/#{ node[:chef11server][:filename] }") }
-#end
-
-cookbook_file node['chef11server']['filename'] do
-  path "#{Chef::Config[:file_cache_path]}/#{node['chef11server']['filename']}"
-  action :create_if_missing
+remote_file "#{Chef::Config[:file_cache_path]}/#{node[:chef11server][:filename]}" do
+  source node[:chef11server][:download]
+  mode 0644
+  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/#{ node[:chef11server][:filename] }") }
 end
 
 case node['platform']
@@ -37,7 +32,6 @@ when 'ubuntu'
 when 'centos'
   packageprovider = Chef::Provider::Package::Rpm
 end
-
 
 package "install chef11-server" do
   source "#{Chef::Config[:file_cache_path]}/#{node['chef11server']['filename']}"

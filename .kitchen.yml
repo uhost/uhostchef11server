@@ -35,3 +35,4 @@ suites:
     data_bags_path: "test/integration/data_bags"
     run_list: ["recipe[uhostchef11server::default]"]
     attributes:
+
