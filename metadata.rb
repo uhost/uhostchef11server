@@ -10,6 +10,6 @@ version          '0.3.0'
   supports os
 end
 
-%w{ apt nginx hostsfile users nodejs mongodb }.each do |cb|
+%w{ apt nginx hostname hostsfile users nodejs mongodb redisio }.each do |cb|
   depends cb
 end

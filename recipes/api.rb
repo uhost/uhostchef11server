@@ -18,6 +18,8 @@
 #
 
 package "git"
+include_recipe "redisio"
+include_recipe "redisio::enable"
 
 service "uhostappserver" do
   action :stop
