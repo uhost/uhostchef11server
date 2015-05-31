@@ -17,6 +17,8 @@
 #    under the License.
 #
 
+servername = Chef::Config[:node_name]
+
 package "git"
 include_recipe "redisio"
 include_recipe "redisio::enable"
@@ -66,6 +68,58 @@ execute 'npm install' do
   environment ({ 'HOME' => "/srv/uhostappserver/shared", 'NODE_ENV' => "prod" })
 end
 
+template "uhostappserver.local.json" do
+  path "/srv/uhostappserver/current/config/local.json"
+  source "uhostappserver.local.json.erb"
+  owner "uhost"
+  group "uhost"
+  mode "0644"
+  variables({
+    :senderaddress => node["uhostappserver"]["senderaddress"],
+    :servername => "https://" + servername,
+    :chefservername => "https://chef." + servername,
+    :domainname => node["uhostappserver"]["domainname"],
+    :awsAccessKey => "",
+    :awsSecretKey => "",
+    :hostedzoneid => "",
+    :imageid => "ami-67526757",
+    :securitygroupids => "",
+    :subnetid => "",
+    :keyname => "",
+    :validationpem => "uhostadmin.pem"
+  })
+end
+
+template "uhostappserver.knife.rb" do
+  path "/srv/uhostappserver/current/chef/.chef/knife.rb"
+  source "uhostappserver.knife.rb.erb"
+  owner "uhost"
+  group "uhost"
+  mode "0644"
+  variables({
+    :chefservername => "https://chef." + servername
+  })
+end
+
+bash "copy-uhostadmin" do
+  code <<-EOH  
+  cp /etc/chef-server/uhostadmin.pem /srv/uhostappserver/current/chef/.chef/uhostadmin.pem
+  chown uhost:uhost /srv/uhostappserver/current/chef/.chef/uhostadmin.pem
+  chmod 0600 /srv/uhostappserver/current/chef/.chef/uhostadmin.pem
+  EOH
+end
+
+bash "config-chef" do
+  code <<-EOH
+  cd /srv/uhostappserver/current/chef/
+  knife upload .
+  cd cookbooks/uhost
+  berks install 
+  berks upload --ssl-verify=false --no-freeze
+  EOH
+  user 'uhost'
+end
+
 template "uhostappserver.upstart.conf" do
   path "/etc/init/uhostappserver.conf"
   source "uhostappserver.conf.erb"
@@ -82,7 +136,6 @@ end
 
 include_recipe "nginx"
 
-servername = Chef::Config[:node_name]
 sitename = servername
 
 hosts = Array.new
