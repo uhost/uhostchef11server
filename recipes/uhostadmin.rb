@@ -67,8 +67,6 @@ end
 
 bash "delete-admin" do
   code <<-EOH
-    export http_proxy=""
-    export https_proxy=""
     cd /etc/chef-server
     knife user delete admin -c admin-knife.rb -y
   EOH
@@ -77,8 +75,6 @@ end
 
 bash "create-uhostadmin" do
   code <<-EOH
-    export http_proxy=""
-    export https_proxy=""
     cd /etc/chef-server
     openssl rand -base64 12 > uhostadmin.txt
     chmod 600 uhostadmin.txt
