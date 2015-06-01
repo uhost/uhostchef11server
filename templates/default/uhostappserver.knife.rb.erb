@@ -1,5 +1,5 @@
 chef_repo = File.join(File.dirname(__FILE__), "..")
-chef_server_url "<%= @chefserver %>"
+chef_server_url "<%= @chefservername %>"
 node_name "uhostadmin"
 client_key File.join(File.dirname(__FILE__), "uhostadmin.pem")
 cookbook_path "#{chef_repo}/cookbooks"

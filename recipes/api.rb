@@ -83,9 +83,10 @@ template "uhostappserver.local.json" do
     :awsSecretKey => "",
     :hostedzoneid => "",
     :imageid => "ami-67526757",
-    :securitygroupids => "",
+    :securitygroupids => "[]",
     :subnetid => "",
     :keyname => "",
+    :validationclientname => "uhostadmin",
     :validationpem => "uhostadmin.pem"
   })
 end
@@ -112,12 +113,10 @@ end
 bash "config-chef" do
   code <<-EOH
   cd /srv/uhostappserver/current/chef/
-  knife upload .
+  su uhost -c 'knife upload .'
   cd cookbooks/uhost
-  berks install 
-  berks upload --ssl-verify=false --no-freeze
+  su uhost -c 'berks install && berks upload --ssl-verify=false --no-freeze'
   EOH
-  user 'uhost'
 end
 
 template "uhostappserver.upstart.conf" do
