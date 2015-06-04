@@ -14,6 +14,7 @@ start on runlevel [23]
 stop on shutdown
 # Respawn in case of a crash, with default parameters
 respawn
+respawn limit 10 5
  
 script
   cd $DIRECTORY
