@@ -1,0 +1,34 @@
+{
+  "Chef": {
+    "chef_server_url": "<%= @chefservername %>",
+    "validation_client_name": "<%= @validationclientname %>",
+    "validationpem": "chef/.chef/<%= @validationpem %>"
+  },
+
+  "AWS": {
+    "awsAccessKey": "<%= @awsAccessKey %>",
+    "awsSecretKey": "<%= @awsSecretKey %>",
+    "route53": { 
+      "domainname": "<%= @domainname %>",
+      "hostedzoneid": "<%= @hostedzoneid %>"
+    },    
+    "ec2": {
+      "ImageId": "<%= @imageid %>",
+      "SecurityGroupIds": <%= @securitygroupids %>,
+      "SubnetId": "<%= @subnetid %>",     
+      "KeyName": "<%= @keyname %>"           
+    } 
+  },
+
+  "Server": {
+    "servername": "<%= @servername %>"
+  },
+  
+  "Email": {
+    "senderaddress": "<%= @senderaddress %>"
+  },
+
+  "DNS": {
+    "domainname": "<%= @domainname %>"
+  }
+}
