@@ -54,7 +54,7 @@ template "/etc/nginx/sites-available/ssl-"+sitename+".conf" do
   owner "root"
   group "root"
   variables({
-    :servername => servername,
+    :servername => sitename,
     :host => hosts
   })
 end
