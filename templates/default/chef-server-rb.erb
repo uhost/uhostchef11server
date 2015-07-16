@@ -1,4 +1,7 @@
-api_fqdn =  "<%= @sitename %>"
+lb['api_fqdn'] =  "<%= @sitename %>"
+lb['web_ui_fqdn'] =  "<%= @sitename %>"
+nginx['server_name'] =  "<%= @sitename %>"
+nginx['url'] =  "https://<%= @sitename %>"
 bookshelf['vip'] = "<%= @sitename %>"
 bookshelf['url'] = "https://<%= @sitename %>"
 bootstrap = <%= @node[:chef11server][:bootstrap] %>
