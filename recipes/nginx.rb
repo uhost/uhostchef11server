@@ -30,6 +30,15 @@ include_recipe "nginx"
 servername = Chef::Config[:node_name]
 sitename = "chef." + servername
 
+sitecert = certificate_manage node['chef11server']['nginx']['certificate'] do
+  cert_file node['chef11server']['nginx']['certificate'] + '.pem'
+  key_file node['chef11server']['nginx']['certificate'] + '.key'
+  nginx_cert true
+  owner "www-data"
+  group "www-data"
+  action :create
+end
+
 hostsfile_entry node['ipaddress'] do
   hostname  sitename
   action    :append
@@ -55,7 +64,9 @@ template "/etc/nginx/sites-available/ssl-"+sitename+".conf" do
   group "root"
   variables({
     :servername => sitename,
-    :host => hosts
+    :host => hosts,
+    :cert => sitecert.certificate,
+    :key => sitecert.key
   })
 end
 

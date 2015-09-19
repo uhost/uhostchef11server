@@ -11,3 +11,5 @@ default['chef11server']['bootstrap'] = true
 default['chef11server']['notification_email'] = "support@getuhost.org"
 default['chef11server']['topology'] = "standalone"
 default['chef11server']['erchef']['s3_url_ttl'] = 3600
+
+default['chef11server']['nginx']['certificate'] = "uhost.getuhost.org"

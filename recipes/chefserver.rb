@@ -20,10 +20,10 @@
 servername = Chef::Config[:node_name]
 sitename = "chef." + servername
 
-remote_file "#{Chef::Config[:file_cache_path]}/#{node[:chef11server][:filename]}" do
-  source node[:chef11server][:download]
+remote_file "#{Chef::Config["file_cache_path"]}/#{node["chef11server"]["filename"]}" do
+  source node["chef11server"]["download"]
   mode 0644
-  not_if { File.exists?("#{Chef::Config[:file_cache_path]}/#{ node[:chef11server][:filename] }") }
+  not_if { File.exists?("#{Chef::Config["file_cache_path"]}/#{ node["chef11server"]["filename"] }") }
 end
 
 case node['platform']

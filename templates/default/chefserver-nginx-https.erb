@@ -21,8 +21,8 @@
     server_name <%= @host.is_a?(Array) ? @host.join(' ') : @host %>;
     access_log /var/log/chef-server/nginx/access.log opscode;
     ssl on;
-    ssl_certificate /var/opt/chef-server/nginx/ca/<%= @servername %>.crt;
-    ssl_certificate_key /var/opt/chef-server/nginx/ca/<%= @servername %>.key;
+    ssl_certificate <%= @cert %>;
+    ssl_certificate_key <%= @key %>;
 
     ssl_session_timeout 5m;
 
