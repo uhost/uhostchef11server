@@ -23,11 +23,10 @@ else
   gem_package "ruby-shadow"
 end
 
-group "uhost" do
-  action :create
-end
-
 include_recipe "users"
 
-users_manage "uhost" 
+users_manage "uhost" do
+  group_id 1171
+  action [:remove, :create]
+end
 
